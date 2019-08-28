@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_28_022509) do
+ActiveRecord::Schema.define(version: 2019_08_28_022655) do
 
   create_table "bottom_categories", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -19,6 +19,26 @@ ActiveRecord::Schema.define(version: 2019_08_28_022509) do
     t.bigint "mid_categories_id", null: false
     t.index ["mid_categories_id"], name: "index_bottom_categories_on_mid_categories_id"
     t.index ["name"], name: "index_bottom_categories_on_name"
+  end
+
+  create_table "items", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "price", null: false
+    t.string "size"
+    t.string "condition", null: false
+    t.integer "cost_burden"
+    t.string "shipping_day", null: false
+    t.integer "rating"
+    t.string "status", default: "出品中", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.bigint "bottom_categories_id", null: false
+    t.bigint "shipping_id", null: false
+    t.index ["bottom_categories_id"], name: "index_items_on_bottom_categories_id"
+    t.index ["name"], name: "index_items_on_name"
+    t.index ["shipping_id"], name: "index_items_on_shipping_id"
+    t.index ["user_id"], name: "index_items_on_user_id"
   end
 
   create_table "mid_categories", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -78,6 +98,9 @@ ActiveRecord::Schema.define(version: 2019_08_28_022509) do
   end
 
   add_foreign_key "bottom_categories", "mid_categories", column: "mid_categories_id"
+  add_foreign_key "items", "bottom_categories", column: "bottom_categories_id"
+  add_foreign_key "items", "shippings"
+  add_foreign_key "items", "users"
   add_foreign_key "mid_categories", "top_categories", column: "top_categories_id"
   add_foreign_key "shippings", "users"
 end
