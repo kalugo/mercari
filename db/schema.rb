@@ -10,10 +10,33 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_28_021506) do
+ActiveRecord::Schema.define(version: 2019_08_28_021950) do
+
+  create_table "bottom_categories", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "mid_categories_id", null: false
+    t.index ["mid_categories_id"], name: "index_bottom_categories_on_mid_categories_id"
+    t.index ["name"], name: "index_bottom_categories_on_name"
+  end
+
+  create_table "mid_categories", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "top_categories_id", null: false
+    t.index ["top_categories_id"], name: "index_mid_categories_on_top_categories_id"
+  end
 
   create_table "pictures", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "image"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "top_categories", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -40,4 +63,6 @@ ActiveRecord::Schema.define(version: 2019_08_28_021506) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "bottom_categories", "mid_categories", column: "mid_categories_id"
+  add_foreign_key "mid_categories", "top_categories", column: "top_categories_id"
 end

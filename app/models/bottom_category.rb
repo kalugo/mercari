@@ -1,0 +1,2 @@
+class BottomCategory < ApplicationRecord
+end
