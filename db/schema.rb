@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_28_021950) do
+ActiveRecord::Schema.define(version: 2019_08_28_022509) do
 
   create_table "bottom_categories", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -33,6 +33,20 @@ ActiveRecord::Schema.define(version: 2019_08_28_021950) do
     t.string "image"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "shippings", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "zipcode", null: false
+    t.string "pref", null: false
+    t.string "city", null: false
+    t.string "address", null: false
+    t.string "building"
+    t.integer "phone"
+    t.boolean "default", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_shippings_on_user_id"
   end
 
   create_table "top_categories", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -65,4 +79,5 @@ ActiveRecord::Schema.define(version: 2019_08_28_021950) do
 
   add_foreign_key "bottom_categories", "mid_categories", column: "mid_categories_id"
   add_foreign_key "mid_categories", "top_categories", column: "top_categories_id"
+  add_foreign_key "shippings", "users"
 end
